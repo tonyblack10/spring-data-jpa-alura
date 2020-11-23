@@ -8,6 +8,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import br.com.alura.spring.data.orm.Cargo;
@@ -54,7 +58,7 @@ public class CrudFuncionarioService {
                     atualizar(scanner);
                     break;
                 case 3:
-                    visualizar();
+                    visualizar(scanner);
                     break;
                 case 4:
                     deletar(scanner);
@@ -76,7 +80,7 @@ public class CrudFuncionarioService {
         String cpf = scanner.next();
 
         System.out.println("Digite o salario");
-        Double salario = scanner.nextDouble();
+        double salario = scanner.nextDouble();
 
         System.out.println("Digite a data de contracao");
         String dataContratacao = scanner.next();
@@ -150,9 +154,15 @@ public class CrudFuncionarioService {
         System.out.println("Alterado");
     }
 
-    private void visualizar() {
-        Iterable<Funcionario> funcionarios = funcionarioRepository.findAll();
-        funcionarios.forEach(funcionario -> System.out.println(funcionario));
+    private void visualizar(Scanner scanner) {
+        System.out.println("Qual a pagina que voce deseja visualizar");
+        int page = scanner.nextInt();
+
+        Pageable pageable = PageRequest.of(page, 5, Sort.unsorted());
+
+        Page<Funcionario> pagina = funcionarioRepository.findAll(pageable);
+
+        System.out.println(pagina);
     }
 
     private void deletar(Scanner scanner) {
