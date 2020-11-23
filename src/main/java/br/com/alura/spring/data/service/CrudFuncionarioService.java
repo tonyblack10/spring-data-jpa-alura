@@ -109,7 +109,7 @@ public class CrudFuncionarioService {
 
         while (isTrue) {
             System.out.println("Digite o unidadeId (Para sair digite 0)");
-            Integer unidadeId = scanner.nextInt();
+            int unidadeId = scanner.nextInt();
 
             if(unidadeId != 0) {
                 Optional<UnidadeTrabalho> unidade = unidadeTrabalhoRepository.findById(unidadeId);
@@ -158,7 +158,7 @@ public class CrudFuncionarioService {
         System.out.println("Qual a pagina que voce deseja visualizar");
         int page = scanner.nextInt();
 
-        Pageable pageable = PageRequest.of(page, 5, Sort.unsorted());
+        Pageable pageable = PageRequest.of(page, 5, Sort.by(Sort.Direction.DESC, "nome"));
 
         Page<Funcionario> pagina = funcionarioRepository.findAll(pageable);
 
